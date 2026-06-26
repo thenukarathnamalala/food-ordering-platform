@@ -16,6 +16,42 @@ function Restaurants() {
       console.log("Error fetching restaurants:", error);
     }
   };
+  
+  const placeOrder = async (restaurant) => {
+  try {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) {
+      alert("Please login first");
+      return;
+    }
+
+    const orderData = {
+      userId: user.id,
+      restaurantId: restaurant._id,
+      items: [
+        {
+          name: "Sample Meal",
+          quantity: 1,
+          price: 1500
+        }
+      ],
+      totalAmount: 1500
+    };
+
+    await API.post("/api/orders", orderData);
+
+    alert(`Order placed successfully from ${restaurant.name}!`);
+  } catch (error) {
+  console.log("Full error:", error);
+  console.log("Response:", error.response);
+
+  alert(
+    error.response?.data?.message ||
+    "Failed to place order"
+  );
+}
+};
 
   return (
     <div className="restaurant-container">
@@ -38,7 +74,10 @@ function Restaurants() {
               ⭐ Rating: {restaurant.rating}
             </p>
 
-            <button className="order-btn">
+            <button
+               className="order-btn"
+               onClick={() => placeOrder(restaurant)}
+            >
               Order Now
             </button>
           </div>
