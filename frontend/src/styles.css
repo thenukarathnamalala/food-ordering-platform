@@ -76,3 +76,54 @@ body {
 .error {
   color: #dc2626;
 }
+
+.restaurant-container {
+  padding: 40px;
+}
+
+.restaurant-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.restaurant-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.restaurant-card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.restaurant-card h3 {
+  margin-top: 0;
+  color: #1f2937;
+}
+
+.restaurant-card p {
+  color: #4b5563;
+}
+
+.rating {
+  color: #f59e0b;
+  font-weight: bold;
+}
+
+.order-btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  border: none;
+  background: #f97316;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.order-btn:hover {
+  background: #ea580c;
+}
