@@ -31,6 +31,10 @@ function Login() {
 
       setMessage("Login successful");
 
+      setTimeout(() => {
+           window.location.href = "/";
+      }, 1000);
+
       setFormData({
         email: "",
         password: ""

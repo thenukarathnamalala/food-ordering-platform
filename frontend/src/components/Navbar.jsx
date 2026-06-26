@@ -1,6 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate();
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    navigate("/login");
+
+    // Refresh navbar after logout
+    window.location.reload();
+  };
+
   return (
     <nav
       style={{
@@ -28,19 +42,49 @@ function Navbar() {
           Orders
         </Link>
 
-        <Link
-          to="/login"
-          style={{ color: "white", marginRight: "20px" }}
-        >
-          Login
-        </Link>
+        {!user ? (
+          <>
+            <Link
+              to="/login"
+              style={{ color: "white", marginRight: "20px" }}
+            >
+              Login
+            </Link>
 
-        <Link
-          to="/register"
-          style={{ color: "white" }}
-        >
-          Register
-        </Link>
+            <Link
+              to="/register"
+              style={{ color: "white" }}
+            >
+              Register
+            </Link>
+          </>
+        ) : (
+          <>
+            <span
+              style={{
+                color: "white",
+                marginRight: "20px",
+                fontWeight: "bold",
+              }}
+            >
+              Welcome, {user.name}
+            </span>
+
+            <button
+              onClick={handleLogout}
+              style={{
+                background: "#ef4444",
+                color: "white",
+                border: "none",
+                padding: "8px 15px",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+            >
+              Logout
+            </button>
+          </>
+        )}
       </div>
     </nav>
   );
