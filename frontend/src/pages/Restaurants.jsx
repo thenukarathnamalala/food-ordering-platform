@@ -29,6 +29,7 @@ function Restaurants() {
     const orderData = {
       userId: user.id,
       restaurantId: restaurant._id,
+      restaurantName: restaurant.name,
       items: [
         {
           name: "Sample Meal",

@@ -25,6 +25,10 @@ const orderSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        restaurantName: {
+            type: String,
+            required: true
+        },
         items: [orderItemSchema],
         totalAmount: {
             type: Number,
