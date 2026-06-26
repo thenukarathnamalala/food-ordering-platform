@@ -1,8 +1,11 @@
 const Order = require("../models/Order");
+const { publishOrderCreated } = require("../rabbitmq/publisher");
 
 const createOrder = async (req, res) => {
     try {
         const order = await Order.create(req.body);
+
+        await publishOrderCreated(order);
 
         res.status(201).json({
             message: "Order created successfully",

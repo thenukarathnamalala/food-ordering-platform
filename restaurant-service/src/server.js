@@ -2,12 +2,17 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
+const {
+    consumeOrderCreated
+} = require("./rabbitmq/consumer");
+
 const connectDB = require("./config/db");
 const restaurantRoutes = require("./routes/restaurantRoutes");
 
 dotenv.config();
 
 connectDB();
+consumeOrderCreated();
 
 const app = express();
 
