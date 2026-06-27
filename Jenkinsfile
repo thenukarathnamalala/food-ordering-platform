@@ -6,6 +6,7 @@ pipeline {
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 echo 'Checking out source code...'
@@ -25,16 +26,24 @@ pipeline {
             }
         }
 
-        stage('Push Docker Images') {
+        stage('Docker Login & Push') {
             steps {
-                echo 'Pushing Docker images to Docker Hub...'
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-credentials',
+                    usernameVariable: 'DOCKER_USERNAME',
+                    passwordVariable: 'DOCKER_PASSWORD'
+                )]) {
 
-                bat 'docker push %DOCKERHUB_USERNAME%/food-frontend:latest'
-                bat 'docker push %DOCKERHUB_USERNAME%/food-api-gateway:latest'
-                bat 'docker push %DOCKERHUB_USERNAME%/food-user-service:latest'
-                bat 'docker push %DOCKERHUB_USERNAME%/food-restaurant-service:latest'
-                bat 'docker push %DOCKERHUB_USERNAME%/food-order-service:latest'
+                    bat 'echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin'
+
+                    bat 'docker push %DOCKERHUB_USERNAME%/food-frontend:latest'
+                    bat 'docker push %DOCKERHUB_USERNAME%/food-api-gateway:latest'
+                    bat 'docker push %DOCKERHUB_USERNAME%/food-user-service:latest'
+                    bat 'docker push %DOCKERHUB_USERNAME%/food-restaurant-service:latest'
+                    bat 'docker push %DOCKERHUB_USERNAME%/food-order-service:latest'
+                }
             }
         }
+
     }
 }
