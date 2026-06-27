@@ -18,11 +18,11 @@ pipeline {
             steps {
                 echo 'Building Docker images...'
 
-                bat 'docker build -t %DOCKERHUB_USERNAME%/food-frontend:latest ./frontend'
-                bat 'docker build -t %DOCKERHUB_USERNAME%/food-api-gateway:latest ./api-gateway'
-                bat 'docker build -t %DOCKERHUB_USERNAME%/food-user-service:latest ./user-service'
-                bat 'docker build -t %DOCKERHUB_USERNAME%/food-restaurant-service:latest ./restaurant-service'
-                bat 'docker build -t %DOCKERHUB_USERNAME%/food-order-service:latest ./order-service'
+                sh 'docker build -t $DOCKERHUB_USERNAME/food-frontend:latest ./frontend'
+                sh 'docker build -t $DOCKERHUB_USERNAME/food-api-gateway:latest ./api-gateway'
+                sh 'docker build -t $DOCKERHUB_USERNAME/food-user-service:latest ./user-service'
+                sh 'docker build -t $DOCKERHUB_USERNAME/food-restaurant-service:latest ./restaurant-service'
+                sh 'docker build -t $DOCKERHUB_USERNAME/food-order-service:latest ./order-service'
             }
         }
 
@@ -34,16 +34,15 @@ pipeline {
                     passwordVariable: 'DOCKER_PASSWORD'
                 )]) {
 
-                    bat 'echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin'
+                    sh 'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin'
 
-                    bat 'docker push %DOCKERHUB_USERNAME%/food-frontend:latest'
-                    bat 'docker push %DOCKERHUB_USERNAME%/food-api-gateway:latest'
-                    bat 'docker push %DOCKERHUB_USERNAME%/food-user-service:latest'
-                    bat 'docker push %DOCKERHUB_USERNAME%/food-restaurant-service:latest'
-                    bat 'docker push %DOCKERHUB_USERNAME%/food-order-service:latest'
+                    sh 'docker push $DOCKERHUB_USERNAME/food-frontend:latest'
+                    sh 'docker push $DOCKERHUB_USERNAME/food-api-gateway:latest'
+                    sh 'docker push $DOCKERHUB_USERNAME/food-user-service:latest'
+                    sh 'docker push $DOCKERHUB_USERNAME/food-restaurant-service:latest'
+                    sh 'docker push $DOCKERHUB_USERNAME/food-order-service:latest'
                 }
             }
         }
-
     }
 }
