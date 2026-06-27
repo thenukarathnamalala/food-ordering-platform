@@ -2,6 +2,15 @@ version: '3.8'
 
 services:
 
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api-gateway
+
   api-gateway:
     build:
       context: ./api-gateway
