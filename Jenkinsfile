@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_USERNAME = 'thenu8175'
-        EC2_HOST = '13.212.167.226'
+        EC2_HOST = '18.140.116.146'
     }
 
     stages {
