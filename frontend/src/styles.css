@@ -179,3 +179,63 @@ body {
 .delete-btn:hover {
   background: #dc2626;
 }
+
+body {
+  background: linear-gradient(135deg, #fff7ed, #f9fafb);
+}
+
+nav {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+}
+
+.restaurant-title,
+.orders-title {
+  font-size: 34px;
+  color: #111827;
+}
+
+.restaurant-card,
+.order-card,
+.auth-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.restaurant-card:hover,
+.order-card:hover,
+.auth-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.16);
+}
+
+.restaurant-card h3 {
+  font-size: 24px;
+  color: #f97316;
+}
+
+.auth-card input:focus {
+  outline: none;
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+}
+
+.btn-primary,
+.order-btn,
+.delete-btn {
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+
+.btn-primary:hover,
+.order-btn:hover,
+.delete-btn:hover {
+  transform: scale(1.02);
+}
+
+.empty-message {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  width: fit-content;
+  margin: 50px auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
