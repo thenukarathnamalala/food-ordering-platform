@@ -52,7 +52,9 @@ pipeline {
                         ssh -o StrictHostKeyChecking=no ubuntu@$EC2_HOST "
                             export KUBECONFIG=/home/ubuntu/.kube/config &&
                             cd ~/food-ordering-platform &&
-                            git pull origin main &&
+                            git fetch origin main &&
+                            git reset --hard origin/main &&
+                            git clean -fd &&
                             helm upgrade --install food-app ./helm/food-ordering-chart -n food-app &&
                             kubectl rollout status deployment/frontend -n food-app &&
                             kubectl rollout status deployment/api-gateway -n food-app &&
