@@ -45,15 +45,20 @@ pipeline {
             }
         }
 
-        stage('Deploy to EC2') {
+        stage('Deploy to Kubernetes') {
             steps {
                 sshagent(['ec2-ssh-key']) {
                     sh '''
                         ssh -o StrictHostKeyChecking=no ubuntu@$EC2_HOST "
                             cd ~/food-ordering-platform &&
-                            docker compose down --remove-orphans &&
-                            docker-compose pull &&
-                            docker compose up -d --force-recreate
+                            git pull origin main &&
+                            kubectl apply -f k8s/ &&
+                            kubectl rollout restart deployment/frontend -n food-app &&
+                            kubectl rollout restart deployment/api-gateway -n food-app &&
+                            kubectl rollout restart deployment/user-service -n food-app &&
+                            kubectl rollout restart deployment/restaurant-service -n food-app &&
+                            kubectl rollout restart deployment/order-service -n food-app &&
+                            kubectl get pods -n food-app
                         "
                     '''
                 }
