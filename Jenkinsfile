@@ -45,7 +45,7 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
+        stage('Deploy to Kubernetes with Helm') {
             steps {
                 sshagent(['ec2-ssh-key']) {
                     sh '''
@@ -53,12 +53,12 @@ pipeline {
                             export KUBECONFIG=/home/ubuntu/.kube/config &&
                             cd ~/food-ordering-platform &&
                             git pull origin main &&
-                            kubectl apply -f k8s/ &&
-                            kubectl rollout restart deployment/frontend -n food-app &&
-                            kubectl rollout restart deployment/api-gateway -n food-app &&
-                            kubectl rollout restart deployment/user-service -n food-app &&
-                            kubectl rollout restart deployment/restaurant-service -n food-app &&
-                            kubectl rollout restart deployment/order-service -n food-app &&
+                            helm upgrade --install food-app ./helm/food-ordering-chart -n food-app &&
+                            kubectl rollout status deployment/frontend -n food-app &&
+                            kubectl rollout status deployment/api-gateway -n food-app &&
+                            kubectl rollout status deployment/user-service -n food-app &&
+                            kubectl rollout status deployment/restaurant-service -n food-app &&
+                            kubectl rollout status deployment/order-service -n food-app &&
                             kubectl get pods -n food-app
                         "
                     '''
