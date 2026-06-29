@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+      - name: mongo
+        image: {{ .Values.images.mongo }}
+        ports:
+        - containerPort: {{ .Values.ports.mongo }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: mongo
+  ports:
+  - port: {{ .Values.ports.mongo }}
+    targetPort: {{ .Values.ports.mongo }}

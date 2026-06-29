@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restaurant-service
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: restaurant-service
+  template:
+    metadata:
+      labels:
+        app: restaurant-service
+    spec:
+      containers:
+      - name: restaurant-service
+        image: {{ .Values.images.restaurantService }}
+        ports:
+        - containerPort: {{ .Values.ports.restaurantService }}
+        env:
+        - name: PORT
+          value: "{{ .Values.ports.restaurantService }}"
+        - name: MONGO_URI
+          value: "mongodb://mongo:27017/restaurant-service-db"
+        - name: RABBITMQ_URL
+          value: "amqp://rabbitmq:5672"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: restaurant-service
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: restaurant-service
+  ports:
+  - port: {{ .Values.ports.restaurantService }}
+    targetPort: {{ .Values.ports.restaurantService }}

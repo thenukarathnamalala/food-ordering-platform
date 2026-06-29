@@ -1,0 +1,26 @@
+namespace: food-app
+
+images:
+  frontend: thenu8175/food-frontend:latest
+  apiGateway: thenu8175/food-api-gateway:latest
+  userService: thenu8175/food-user-service:latest
+  restaurantService: thenu8175/food-restaurant-service:latest
+  orderService: thenu8175/food-order-service:latest
+  mongo: mongo:7
+  rabbitmq: rabbitmq:3-management
+
+ports:
+  frontend: 3000
+  apiGateway: 5000
+  userService: 5001
+  restaurantService: 5002
+  orderService: 5003
+  mongo: 27017
+  rabbitmq: 5672
+  rabbitmqManagement: 15672
+
+nodePort:
+  frontend: 30000
+
+env:
+  jwtSecret: mysecretkey

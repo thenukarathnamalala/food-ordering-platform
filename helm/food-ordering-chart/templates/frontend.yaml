@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: {{ .Values.images.frontend }}
+        ports:
+        - containerPort: {{ .Values.ports.frontend }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: {{ .Values.namespace }}
+spec:
+  type: NodePort
+  selector:
+    app: frontend
+  ports:
+  - port: {{ .Values.ports.frontend }}
+    targetPort: {{ .Values.ports.frontend }}
+    nodePort: {{ .Values.nodePort.frontend }}
