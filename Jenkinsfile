@@ -50,6 +50,7 @@ pipeline {
                 sshagent(['ec2-ssh-key']) {
                     sh '''
                         ssh -o StrictHostKeyChecking=no ubuntu@$EC2_HOST "
+                            export KUBECONFIG=/home/ubuntu/.kube/config &&
                             cd ~/food-ordering-platform &&
                             git pull origin main &&
                             kubectl apply -f k8s/ &&
