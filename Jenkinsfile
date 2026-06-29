@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_USERNAME = 'thenu8175'
+        EC2_HOST = '13.212.167.226'
     }
 
     stages {
@@ -33,7 +34,6 @@ pipeline {
                     usernameVariable: 'DOCKER_USERNAME',
                     passwordVariable: 'DOCKER_PASSWORD'
                 )]) {
-
                     sh 'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin'
 
                     sh 'docker push $DOCKERHUB_USERNAME/food-frontend:latest'
@@ -41,6 +41,20 @@ pipeline {
                     sh 'docker push $DOCKERHUB_USERNAME/food-user-service:latest'
                     sh 'docker push $DOCKERHUB_USERNAME/food-restaurant-service:latest'
                     sh 'docker push $DOCKERHUB_USERNAME/food-order-service:latest'
+                }
+            }
+        }
+
+        stage('Deploy to EC2') {
+            steps {
+                sshagent(['ec2-ssh-key']) {
+                    sh '''
+                        ssh -o StrictHostKeyChecking=no ubuntu@$EC2_HOST "
+                            cd ~/food-ordering-platform &&
+                            docker-compose pull &&
+                            docker-compose up -d
+                        "
+                    '''
                 }
             }
         }
