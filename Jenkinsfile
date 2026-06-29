@@ -51,6 +51,7 @@ pipeline {
                     sh '''
                         ssh -o StrictHostKeyChecking=no ubuntu@$EC2_HOST "
                             cd ~/food-ordering-platform &&
+                            docker compose down --remove-orphans &&
                             docker-compose pull &&
                             docker compose up -d --force-recreate
                         "
